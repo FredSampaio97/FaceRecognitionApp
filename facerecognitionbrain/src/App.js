@@ -15,20 +15,15 @@ import './App.css';
 // });
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// In this section, we set the user authentication, user and app ID, model details, and the URL
-// of the image we want as an input. Change these strings to run your own example.
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 const returnClarifaiRequest = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in the Account's Security section
   const PAT = '4daa5e1d7b1942ce8d916d2a908d8bd0';
   // Specify the correct user_id/app_id pairings
   // Since you're making inferences outside your app's scope
   const USER_ID = 'fredr6';
-  const APP_ID = 'face-detection';
+  const APP_ID = 'smart-face';
   // Change these to whatever model and image URL you want to use
-  // const MODEL_ID = 'face-detection';
+  const MODEL_ID = 'face-detection';
   const IMAGE_URL = imageUrl;
 
   const raw = JSON.stringify({
@@ -58,12 +53,7 @@ const returnClarifaiRequest = (imageUrl) => {
   return requestOptions;
 }
 
-fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", returnClarifaiRequest)
-        .then(response => response.json())
-        .then(response => {
-            console.log('hi', response);
-          }
-        )
+
 
 
 
@@ -80,6 +70,13 @@ function App() {
 
   const onButtonSubmit = () => {
     setImageUrl(input);
+
+    fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", returnClarifaiRequest(input))
+        .then(response => response.json())
+        .then(response => {
+            console.log('hi', response);
+          }
+        )
     // app.models.predict("6dc7e46bc9124c5c8824be4822abe105", "https://samples.clarifai.com/face-det.jpg").then(
     //   funtion(response) {
     //     // do something with response
