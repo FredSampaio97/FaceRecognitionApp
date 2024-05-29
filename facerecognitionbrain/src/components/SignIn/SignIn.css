@@ -1,0 +1,12 @@
+.signin-box{
+    width: 55%;
+    margin: 10px 0 30px 0;
+    padding: 100px;
+  }
+form{
+    width: 100%;
+}
+main{
+    padding: 40px;
+    width: 90%;
+}
