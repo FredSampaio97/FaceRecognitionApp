@@ -68,8 +68,20 @@ function App() {
   const [box, setBox] = useState('');
   const [route, setRout] = useState('signin');
   const [isSignedIn, setSign] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    password: '',
+    entries: 0,
+    joined: ''
+  });
 
   
+  
+  
+  
+
   const calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById("inputImage");
@@ -83,10 +95,20 @@ function App() {
     }
   }
 
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      entries: data.entries,
+      joined: data.joined
+    });
+  }
+
   const displayFaceBox = (box) => {
     setBox(box);
   }
-  
   
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -133,7 +155,7 @@ function App() {
               </div>
             : <div>
                 <Logo />
-                <Register onRouteChange={onRouteChange} />
+                <Register onRouteChange={onRouteChange} loadUser={loadUser} />
               </div>
          ) 
           
