@@ -2,7 +2,7 @@
 import './SignIn.css';
 import React, {useState, useEffect} from 'react';
 
-const SignIn = ({onRouteChange}) => {
+const SignIn = ({onRouteChange, loadUser}) => {
     
     const [signInEmail, setEmail] = useState('');
     const [signInPassword, setPassword] = useState('');
@@ -26,8 +26,9 @@ const SignIn = ({onRouteChange}) => {
             })
         })
             .then(response => response.json())
-            .then(data => {
-                if (data === 'success'){
+            .then(user => {
+                if (user.id){ //Does the user exist? did we receive an user id?
+                    loadUser(user);
                     onRouteChange('home');
                 }
             })
