@@ -1,5 +1,5 @@
 import './Register.css';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 const Register = ({onRouteChange, loadUser}) => {
     
@@ -32,7 +32,7 @@ const Register = ({onRouteChange, loadUser}) => {
         })
             .then(response => response.json())
             .then(user => {
-                if (user){
+                if (user.id){
                     loadUser(user);
                     onRouteChange('home');
                 }
