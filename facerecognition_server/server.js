@@ -3,20 +3,24 @@ import bodyParser from 'body-parser'; //Obrigatorio
 import bcrypt from 'bcrypt-nodejs';
 import cors from 'cors';
 import knex from 'knex';
+import dotenv from 'dotenv';
+import { handleRegister } from './controllers/register.js';
+import { handleSignIn } from './controllers/signIn.js';
+import { handleProfile } from './controllers/profile.js';
+import { handleImage, handleApiCall } from './controllers/image.js';
+
+
+dotenv.config();
 
 const db = knex({
     client: 'pg',
     connection: {
-      host: '127.0.0.1',
-      port: 5432,
-      user: 'postgres',
-      password: 'Fedrico8681',
-      database: 'faceRecognitionApp',
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     },
-});
-
-db.select('*').from('users').then(data => {
-    console.log(data);
 });
 
 const app = express();
@@ -24,93 +28,20 @@ const app = express();
 app.use(bodyParser.json()); // Obrigatorio
 app.use(cors());
 
-const database = {
-    users: [
-        {
-            id: '123',
-            name: 'John',
-            email: 'john@gmail.com',
-            password: '12345',
-            entries: 0,
-            joined: new Date()
-        },
-        {
-            id: '124',
-            name: 'Fred',
-            email: 'fred@gmail.com',
-            password: '12345',
-            entries: 0,
-            joined: new Date()
-        },
-    ],
-    login: [
-        {
-            id: '987',
-            has: '',
-            email: 'john@gamil.com'
-        }
-    ]
-}
 
+app.get('/', (req, res) => {res.send(database.users)})
 
-app.get('/', (req, res) => {
-    res.send(database.users)
-})
+app.post('/signin', (req, res) => { handleSignIn(req, res, db, bcrypt)});
 
-app.post('/signin', (req, res) => {
-    if(req.body.email === database.users[0].email && req.body.password === database.users[0].password){
-        res.json(database.users[0]);
-    } else {
-        res.status(400).json('error loggin in');
-    }
-})
+app.post('/register', (req, res) => { handleRegister(req, res, db, bcrypt) });
 
-app.post('/register', (req, res) => {
-    const {email, name, password} = req.body;
-    bcrypt.hash(password, null, null, function(err, hash) {
-        console.log(hash);
-    }); // Password hash creation
-    db('users').returning('*').insert({
-        email: email,
-        name: name,
-        joined: new Date()
-    })
-        .then(user => {
-            res.json(user[0]);
-        })
-        .catch(err => res.status(400).json('Unable to register!')); //Em caso de erro
-})
-
-app.get('/profile/:id', (req, res) => {
-    const {id} = req.params;
-    let found = false;
-    database.users.forEach(users => {
-        if (users.id === id){
-            found = true;
-            return res.json(users);
-        } 
-    })
-    if(!found) {
-        res.status(400).json('Not found!');
-    }
-})
+app.get('/profile/:id', (req, res) => { handleProfile(req, res, db)});
 
 //User App Images uploaded counter
 
-app.put('/image', (req, res) => {
-    const {id} = req.body;
-    let found = false;
-    database.users.forEach(users => {
-        if (users.id === id){
-            found = true;
-            users.entries++;
-            return res.json(users.entries);
-        } 
-    })
-    if(!found) {
-        res.status(400).json('Not found!');
-    }
-})
+app.put('/image', (req, res) => { handleImage(req, res, db)});
+
+app.post('/imageurl', (req, res) => { handleApiCall(req, res) });
 
 
 // Password encripting 
@@ -128,9 +59,7 @@ app.put('/image', (req, res) => {
 
 
 
-app.listen(3000, () => {
-    console.log('app is running on port 3000');
-})
+app.listen(3000, () => {console.log('app is running on port 3000');})
 
 /* 
 / --> res = this is working,
