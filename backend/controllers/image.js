@@ -1,4 +1,7 @@
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const handleImage = (req, res, db) =>{
     const {id} = req.body;
@@ -14,7 +17,7 @@ export const handleImage = (req, res, db) =>{
 export const handleApiCall = (req, res) => {
     const { input } = req.body;
 
-    const PAT = '4daa5e1d7b1942ce8d916d2a908d8bd0';
+    const PAT = process.env.API_KEY;
     const USER_ID = 'fredr6';
     const APP_ID = 'smart-face';
 
