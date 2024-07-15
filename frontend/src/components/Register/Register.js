@@ -21,7 +21,7 @@ const Register = ({onRouteChange, loadUser}) => {
     }
     
     const onSubmitRegister = () => {
-        fetch('http://localhost:3000/register', {
+        fetch('https://facerecognitionapp-tv2a.onrender.com/register', {
             method:'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
