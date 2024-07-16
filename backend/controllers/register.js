@@ -1,12 +1,11 @@
 export const handleRegister = (req, res, db, bcrypt) => {
-    const {email, name, password} = req.body;
+    const { email, name, password } = req.body;
     if (!email || !name || !password) {
         return res.status(400).json('incorrect form submission!');
     }
 
-    bcrypt.hash(password, null, null, function(err, hash) {
+    bcrypt.hash(password, null, null, function (err, hash) {
         if (err) {
-            console.error('Error hashing password:', err);
             return res.status(500).json('Error hashing password');
         }
 
@@ -29,7 +28,6 @@ export const handleRegister = (req, res, db, bcrypt) => {
                     joined: new Date()
                 })
                 .then(user => {
-                    console.log('Registered user:', user);
                     res.json(user[0]);
                 })
             })
