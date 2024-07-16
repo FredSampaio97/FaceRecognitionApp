@@ -9,13 +9,7 @@ import { handleSignIn } from './controllers/signIn.js';
 import { handleProfile } from './controllers/profile.js';
 import { handleImage, handleApiCall } from './controllers/image.js';
 
-db.raw('SELECT 1')
-  .then(() => {
-    console.log('Database connection successful');
-  })
-  .catch(err => {
-    console.error('Database connection failed:', err);
-  });
+
 
 
 dotenv.config();
@@ -32,6 +26,14 @@ const db = knex({
       database: process.env.DB_NAME //erro deploy
     },
 });
+
+db.raw('SELECT 1')
+  .then(() => {
+    console.log('Database connection successful');
+  })
+  .catch(err => {
+    console.error('Database connection failed:', err);
+  });
 
 const app = express();
 
