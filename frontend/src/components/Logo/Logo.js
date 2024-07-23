@@ -6,7 +6,7 @@ import './Logo.css';
 const Logo =  () => {
     return(
         <div className='ma6 mt0'>
-            <Tilt className='br2 shadow-1' style={{ height: '300px', width: '300px'}}>
+            <Tilt className='br2 shadow-1' style={{ height: '200px', width: '200px'}}>
                 <div className='pa3 logobackground'>
                     <img alt='Logo' src={brain}/>
                 </div>
