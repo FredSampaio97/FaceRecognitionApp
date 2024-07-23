@@ -7,7 +7,7 @@ const Logo =  () => {
     return(
         <div className='ma6 mt0'>
             <Tilt className='br2 shadow-1' style={{ height: '200px', width: '200px'}}>
-                <div className='pa3 logobackground'>
+                <div className='pa2 logobackground'>
                     <img alt='Logo' src={brain}/>
                 </div>
             </Tilt>  
